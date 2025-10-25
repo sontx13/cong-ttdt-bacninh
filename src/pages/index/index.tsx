@@ -7,6 +7,7 @@ import { Categories } from "./categories";
 import { Recommend } from "./recommend";
 import { ProductList } from "./product-list";
 import { Divider } from "components/divider";
+import { Menus } from "./menu";
 
 const HomePage: React.FunctionComponent = () => {
   return (
@@ -16,7 +17,7 @@ const HomePage: React.FunctionComponent = () => {
         <Inquiry />
         <Banner />
         <Suspense>
-          <Categories />
+          <Menus />
         </Suspense>
         <Divider />
         <Recommend />
