@@ -22,7 +22,7 @@ export const Menus: FC = () => {
       const response = await fetch(`${BASE_API}/${getConfigs}`);
       if (!response.ok) throw new Error("Network response was not ok");
       const jsonData = await response.json();
-      console.log("📦 configs API response:", JSON.stringify(jsonData));
+      //console.log("📦 configs API response:", JSON.stringify(jsonData));
       setConfigs(jsonData.data?.result || []);
     } catch (error) {
       console.error("Error fetching configs:", error);

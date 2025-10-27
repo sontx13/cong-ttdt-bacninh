@@ -11,11 +11,30 @@ import { calcFinalPrice } from "utils/product";
 import { wait } from "utils/async";
 import categories from "../mock/categories.json";
 
-export const userState = selector({
-  key: "user",
-  get: async () => {
+// export const userState = selector({
+//   key: "user",
+//   get: async () => {
+//     const { userInfo } = await getUserInfo({ autoRequestPermission: true });
+//     return userInfo;
+//   },
+// });
+
+export const userState = atom({
+  key: "userAtom",
+  default: {
+    id: "",
+    name: "",
+    avatar: "",
+  },
+});
+
+export const userSelector = selector({
+  key: "userSelector",
+  get: async ({ get }) => {
+    const current = get(userState);
+    if (current.id) return current;
     const { userInfo } = await getUserInfo({ autoRequestPermission: true });
-    return userInfo;
+    return userInfo || current;
   },
 });
 

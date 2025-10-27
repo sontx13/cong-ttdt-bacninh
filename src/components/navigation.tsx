@@ -28,7 +28,7 @@ const tabs: Record<string, MenuItem> = {
     icon: <Icon icon="zi-post" />,
   },
  
-  "/profile": {
+  "/user": {
     label: "Cá nhân",
     icon: <Icon icon="zi-user" />,
   },
