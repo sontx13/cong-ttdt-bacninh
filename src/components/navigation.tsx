@@ -10,15 +10,24 @@ const tabs: Record<string, MenuItem> = {
     label: "Trang chủ",
     icon: <Icon icon="zi-home" />,
   },
-  "/notification": {
-    label: "Thông báo",
-    icon: <Icon icon="zi-notif" />,
+  // "/notification": {
+  //   label: "Thông báo",
+  //   icon: <Icon icon="zi-notif" />,
+  // },
+  // "/cart": {
+  //   label: "Giỏ hàng",
+  //   icon: <CartIcon />,
+  //   activeIcon: <CartIcon active />,
+  // },
+  "/hotline": {
+    label: "Hotline",
+    icon: <Icon icon="zi-call" />,
   },
   "/cart": {
-    label: "Giỏ hàng",
-    icon: <CartIcon />,
-    activeIcon: <CartIcon active />,
+    label: "Trợ giúp",
+    icon: <Icon icon="zi-post" />,
   },
+ 
   "/profile": {
     label: "Cá nhân",
     icon: <Icon icon="zi-user" />,
