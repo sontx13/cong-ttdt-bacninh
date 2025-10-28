@@ -168,20 +168,20 @@ const PostPage: React.FC = () => {
   const news = (newsLoadable.contents as any[]) || [];
 
   return (
-    <Page restoreScrollOnBack className="bg-white bg-image">
-      <Divider size={35} />
+    <Page restoreScrollOnBack className="bg-white">
+    
       <Icon icon="zi-chevron-left" className="img-logo object-cover"  />
 
-      <Box mx={3} mb={2} mt={0} style={{ marginLeft: "40px", width: "65%" }}>
+      <Box mx={3} mb={2} mt={0} style={{ marginLeft: "40px", width: "65%", marginTop:"50px" }}>
         <QuickFilter
           activeCategory={activeCategory}
           onChangeActiveCategory={onChangeActiveCategory}
         />
       </Box>
 
-      <Divider size={10} />
+   
 
-      {showText ? (
+      {/* {showText ? (
         <Text className="sub_header" onClick={openUrlInWebview}>
           Cổng TTĐT Bắc Ninh
         </Text>
@@ -189,9 +189,9 @@ const PostPage: React.FC = () => {
         <Text className="sub_header" onClick={openUrlInWebview}>
           {formattedDate}
         </Text>
-      )}
+      )} */}
 
-      <Divider size={15} />
+      {/* <Divider size={15} /> */}
 
       <Popular
         news={news}
