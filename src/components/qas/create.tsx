@@ -1,4 +1,4 @@
-import { BASE_URL } from "api";
+import { appId, BASE_API, postQAS } from "api";
 import React from "react";
 import { useState } from "react";
 import { Box, Button, Text, Page, Input, useSnackbar, Modal, Header } from "zmp-ui";
@@ -17,20 +17,19 @@ const CreateQAS = () => {
   const submit = () => {
 
 
-    if (name && phone && pakn && content) {
-      fetch(`${BASE_URL}/zalo/ghiLaiPAKNisZalo`, {
+    if (name && phone && email && content) {
+      fetch(`${BASE_API}/${postQAS}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ten: name,
-          so_dien_thoai: phone,
-          email: email,
-          dia_chi: address,
-          tieu_de: pakn,
-          noi_dung: content,
-          file: file
+          name_q: name,
+          phone_q: phone,
+          email_q: email,
+          time_q: new Date().toISOString(),
+          content_q: content,
+          app: {"id":`${appId}`}
         }),
       })
         .then(response => {
@@ -56,28 +55,28 @@ const CreateQAS = () => {
     }
 
   };
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files;
-    const formData = new FormData();
-    if (file) {
-      for (let i = 0; i < file.length; i++) {
-        formData.append('files', file[i]);
-      }
-    }
-    fetch(`${BASE_URL}/zalo/file/upload`, {
-      method: 'POST',
-      body: formData
-    })
-      .then(response => {
-        const data = response.json;
-        return response.json();
-      })
-      .then(data => {
-        setFile(data.file_path)
-      })
-      .catch(error => {
-      });
-  };
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files;
+  //   const formData = new FormData();
+  //   if (file) {
+  //     for (let i = 0; i < file.length; i++) {
+  //       formData.append('files', file[i]);
+  //     }
+  //   }
+  //   fetch(`${BASE_API}/zalo/file/upload`, {
+  //     method: 'POST',
+  //     body: formData
+  //   })
+  //     .then(response => {
+  //       const data = response.json;
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       setFile(data.file_path)
+  //     })
+  //     .catch(error => {
+  //     });
+  // };
 
   const boxTitle = {
     fontSize: '25px',
@@ -163,7 +162,7 @@ const CreateQAS = () => {
           Gửi câu hỏi
         </Button>
       </Box>
-      <div className="createPAKN">
+      <div className="createQAS">
         <Modal
           visible={dialogVisible}
           title="Gửi thành công"

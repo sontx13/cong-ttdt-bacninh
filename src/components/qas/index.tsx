@@ -69,21 +69,24 @@ const QAS: FunctionComponent<QASItemProps> = ({ qas }) => {
     >
       <div style={customStyle}>
         <div >
-          <Icon icon="zi-user" size={20} /> {qas.ten} - <Icon icon="zi-reminder" size={20} />{formatDate(qas.created_at)}
+          <Icon icon="zi-user" size={20} /> {qas.name_q} 
         </div>
-        <div>
-          {qas.status == 2 ? <>
+        <div >
+          <Icon icon="zi-reminder" size={20} /> {formatDate(qas.time_q)}
+        </div>
+        {/* <div>
+          {qas.active == 1 ? <>
             <Icon icon="zi-bookmark" size={20} />   Đã xử lý
-          </> : qas.status == 0 ? <> <Icon icon="zi-bookmark" size={20} />   Chưa xử lý </> : <> <Icon icon="zi-bookmark" size={20} />   Đang xử lý </>}
-        </div>
+          </> : qas.active == 0 ? <> <Icon icon="zi-bookmark" size={20} />   Chưa xử lý </> : <> <Icon icon="zi-bookmark" size={20} />   Đang xử lý </>}
+        </div> */}
 
-        <div>
+        {/* <div>
           <span style={fontWeight}><Icon icon="zi-help-circle" size={20} /> {qas.tieu_de}</span>
-        </div>
-        <div>
-          <Icon icon="zi-chat" size={20} />  Nội dung kiến nghị:  <span
+        </div> */}
+        <div >
+          <Icon icon="zi-help-circle" size={20} />  Câu hỏi:  <span  style={fontWeight}
             dangerouslySetInnerHTML={{
-              __html: qas.noi_dung,
+              __html: qas.content_q,
             }}
           />
         </div>

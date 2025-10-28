@@ -3,12 +3,11 @@ import { Box, Text,  Page, Icon,  useNavigate,  Sheet, Header } from "zmp-ui";
 
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state";
-import { BASE_URL, web_url } from "api";
+import { BASE_API, getQASById, urlFile } from "api";
 
 
 const QASDetail = () => {
-  const user = useRecoilValue(userState);
-  const [idCK, setIdCK] = useState<any>(null);
+
   const [qas, setQAS] = useState<any>({});
   const [popupVisible, setPopupVisible] = useState(false);
 
@@ -16,10 +15,10 @@ const QASDetail = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const idFromUrl = searchParams.get('id');
-    setIdCK(idFromUrl);
+  
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/zalo/getPAKNbyID?id=${idFromUrl}`);
+        const response = await fetch(`${BASE_API}/${getQASById}/${idFromUrl}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -47,11 +46,12 @@ const QASDetail = () => {
   }
   const boxContent = {
     borderRadius: '10px',
-    padding: '5px 15px'
+    padding: '5px 15px',
+    textAlign: 'justify',
   }
   var link = `#`
   if (qas.url_tai_lieu) {
-    link = `${web_url}/${qas.url_tai_lieu}`
+    link = `${urlFile}/${qas.url_tai_lieu}`
   }
 
   const colorBlue = {
@@ -66,33 +66,30 @@ const QASDetail = () => {
     height: '1px',
     background: '#dfdfdf'
   }
-  const navigate = useNavigate();
-  const viewDetail = () => {
-    navigate(`/qas-create`);
-  };
+
   return (
     <Page className="min-h-0 bg-white">
       <Header title='Chi tiết hỏi đáp'/>
       <Box mx={4} my={4}>
         <div style={boxContent}>
-          <p>  <Icon icon="zi-help-circle" size={20} />  Vấn đề PAKN: <span style={colorBlue}>{qas.tieu_de}</span></p>
-          <p> <Icon icon="zi-user" size={20} />   Người gửi: <span style={fontWeight}>{qas.ten}</span></p>
-          <p> <Icon icon="zi-filter" size={20} />  {qas.dia_chi}</p>
-          <p>  <Icon icon="zi-chat" size={20} />  Nội dung chi tiết: <span
+          {/* <p>  <Icon icon="zi-help-circle" size={20} />  Vấn đề PAKN: <span style={colorBlue}>{qas.tieu_de}</span></p> */}
+          <p> <Icon icon="zi-user" size={20} />   Người gửi: <span >{qas.name_q}</span></p>
+          {/* <p> <Icon icon="zi-filter" size={20} />  {qas.dia_chi}</p> */}
+          <p>  <Icon icon="zi-help-circle" size={20} />  Câu hỏi: <span  style={fontWeight}
             dangerouslySetInnerHTML={{
-              __html: qas.noi_dung,
+              __html: qas.content_q,
             }}
           /></p>
-          {qas.url_tai_lieu != null ? <> <p>Danh sách file đính kèm: <span><a style={colorBlue} onClick={() => {
+          {/* {qas.url_tai_lieu != null ? <> <p>Danh sách file đính kèm: <span><a style={colorBlue} onClick={() => {
             setPopupVisible(true)
-          }}>Xem</a></span></p></> : <> </>}
+          }}>Xem</a></span></p></> : <> </>} */}
         </div>
-        {qas.tra_loi == null || qas.tra_loi == "" ? <></> : <>
+        {qas.content_a == null || qas.content_a == "" ? <></> : <>
           <p style={line}></p>
           <div style={boxContent}>
             <p>  <Icon icon="zi-check" size={20} />  Trả lời: <span style={colorBlue}>   <span
               dangerouslySetInnerHTML={{
-                __html: qas.tra_loi,
+                __html: qas.content_a,
               }}
             /> </span></p>
           </div></>}

@@ -1,4 +1,4 @@
-import { BASE_URL } from "api";
+import { BASE_API, getQAS, getQASById } from "api";
 import QAS from "components/qas";
 import React, { Suspense, useEffect, useState } from "react";
 import { Page, Button, Box, useNavigate, Spinner, Input, Header } from "zmp-ui";
@@ -11,17 +11,20 @@ const QASPage = () => {
   const viewDetail = () => {
     navigate(`/qas-create`);
   };
-  const [pakn, setPakn] = useState<any>([]);
+  const [qas, setQas] = useState<any>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/zalo/getListPAKN`);
+        const response = await fetch(`${BASE_API}/${getQAS}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const jsonData = await response.json();
+        
         const data = jsonData.data;
-        setPakn(data); // Set fetched data to the state
+        //console.log("data="+ data);
+        setQas(jsonData.data?.result || []);
+        //setQas(data); // Set fetched data to the state
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -34,13 +37,14 @@ const QASPage = () => {
       setLoading(true)
       const fetchQAS = async () => {
         try {
-          const response = await fetch(`${BASE_URL}/zalo/paknByKey?key=${value.target.value}`);
+          const response = await fetch(`${BASE_API}/${getQASById}/${value.target.value}`);
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
           const jsonData = await response.json();
           const data = jsonData.data;
-          setPakn(data);
+          console.log("data="+ data);
+          setQas(data);
           setLoading(false)
         } catch (error) {
           setLoading(false)
@@ -76,7 +80,7 @@ const QASPage = () => {
         >
           <Spinner visible={true} />
         </div></> : <>
-          {pakn.map((item) => (
+          {qas.map((item) => (
             <Box key={item.id} my={4}>
               <QAS qas={item} />
               <p style={line}></p>
