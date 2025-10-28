@@ -19,6 +19,9 @@ import HelpInforPage from "pages/help_infor";
 import QASPage from "pages/qas";
 import CreateQAS from "./qas/create";
 import QASDetail from "./qas/detail";
+import PostPage from "pages/post";
+import ArticlePage from "pages/article";
+import ArticleDetail from "pages/article/detail";
 
 
 if (import.meta.env.DEV) {
@@ -42,6 +45,9 @@ export const Layout: FC = () => {
       <Box className="flex-1 flex flex-col overflow-hidden">
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
+          <Route path="/post" element={<PostPage />}></Route>
+          <Route path="/article" element={<ArticlePage />}></Route>
+          <Route path="/article-detail" element={<ArticleDetail />}></Route>
           <Route path="/search" element={<SearchPage />}></Route>
           <Route path="/category" element={<CategoryPage />}></Route>
           <Route path="/notification" element={<NotificationPage />}></Route>

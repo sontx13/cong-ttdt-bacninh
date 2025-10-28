@@ -3,6 +3,13 @@ body {
   user-select: none;
 }
 
+.zaui-page,
+.no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .zaui-routes {
   height: 100%;
 }

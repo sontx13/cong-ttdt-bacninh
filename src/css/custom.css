@@ -1,0 +1,36 @@
+.ds-chuyenmuc button {
+  padding: 8px 10px;
+  margin-left: 5px;
+}
+
+.ds-chuyenmuc button span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.img-logo {
+  height: 30px;
+  width: 30px;
+  left: 10px;
+  top: 55px;
+  position: absolute;
+}
+
+.sub_header {
+  margin-left: 20px;
+  color: #000;
+  font-weight: bold;
+}
+
+.bg-image {
+  background: #fff;
+}
+
+.bg-gray-200{
+  background: rgb(221, 220, 220);
+}
+
+
+
+
+

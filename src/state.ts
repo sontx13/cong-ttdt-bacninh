@@ -10,7 +10,72 @@ import { Store } from "types/delivery";
 import { calcFinalPrice } from "utils/product";
 import { wait } from "utils/async";
 import categories from "../mock/categories.json";
+import { Article, PageInfor } from "types/article";
+import { BASE_URL, getbycategory, getcategories } from "api";
 
+export const listCategoryState = selector({
+  key: "listCategory",
+  get: async ({ get }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/${getcategories}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: "",
+      });
+      const data = await response.json();
+      const listCategory = data.data;
+      return listCategory;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+});
+
+export const pageInfor = atom<PageInfor>({
+  key: "pageInfor",
+  default: {
+    pagenumber: 1,
+    pagesize: 300,
+    category_id: 1,
+  },
+});
+
+export const categoryNewsState = selector<Article[]>({
+  key: "categoryNews",
+  get: async ({ get }) => {
+    const activeCategory = get(selectedCategoryState);
+    const page = get(pageInfor);
+    const dataPost = {
+      pagenumber: page.pagenumber,
+      pagesize: page.pagesize,
+      category_id: activeCategory,
+    };
+    //console.log(dataPost, 'dataPost state-=-=-=');
+
+    try {
+      const response = await fetch(`${BASE_URL}/${getbycategory}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataPost),
+      });
+      const data = await response.json();
+      const categoryNews = data.data;
+      return categoryNews;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  set: ({ set }, categoryNews) => set(categoryNewsState, categoryNews),
+});
+
+export const selectedCategoryState = atom({
+  key: "selectedCategory",
+  default: 1,
+});
 // export const userState = selector({
 //   key: "user",
 //   get: async () => {
