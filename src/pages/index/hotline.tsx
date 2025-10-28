@@ -60,7 +60,7 @@ const HotlinePage: FC = () => {
 
   return (
     <Page className="flex flex-col">
-      <Header title="Đường dây nóng" showBackIcon={false} />
+      <Header title="Đường dây nóng" showBackIcon={true} />
       <Box>
         <ListRenderer
           items={hotlineItems}

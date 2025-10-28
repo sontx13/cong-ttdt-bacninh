@@ -13,6 +13,8 @@ export const getConfigs = "configs?current=1&pageSize=5&sort=sort,asc";
 
 export const getHotlines = "hotlines?current=1&pageSize=100&sort=sort,asc";
 
+export const getInfors = "infors?current=1&pageSize=100&sort=sort,asc";
+
   
 export const logo_danvan =
   "https://s120-ava-talk.zadn.vn/7/c/1/7/1/120/7f741c7c14611306553be5c0bb3e4960.jpg";

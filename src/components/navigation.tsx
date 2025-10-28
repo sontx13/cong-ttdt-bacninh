@@ -23,7 +23,7 @@ const tabs: Record<string, MenuItem> = {
     label: "Hotline",
     icon: <Icon icon="zi-call" />,
   },
-  "/cart": {
+  "/help": {
     label: "Trợ giúp",
     icon: <Icon icon="zi-post" />,
   },

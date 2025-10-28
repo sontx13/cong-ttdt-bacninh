@@ -15,6 +15,7 @@ import { useHandlePayment } from "hooks";
 
 import MyProfilePage from "pages/myprofile";
 import HotlinePage from "pages/hotline";
+import HelpInforPage from "pages/help_infor";
 
 
 if (import.meta.env.DEV) {
@@ -42,6 +43,7 @@ export const Layout: FC = () => {
           <Route path="/category" element={<CategoryPage />}></Route>
           <Route path="/notification" element={<NotificationPage />}></Route>
           <Route path="/cart" element={<CartPage />}></Route>
+          <Route path="/help" element={<HelpInforPage />}></Route>
           <Route path="/hotline" element={<HotlinePage />}></Route>
           <Route path="/user" element={<MyProfilePage />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
