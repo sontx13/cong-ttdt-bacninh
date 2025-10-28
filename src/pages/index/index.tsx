@@ -20,10 +20,10 @@ const HomePage: React.FunctionComponent = () => {
           <Menus />
         </Suspense>
         <Divider />
-        <Recommend />
+        {/* <Recommend />
         <Divider />
         <ProductList />
-        <Divider />
+        <Divider /> */}
       </Box>
     </Page>
   );
