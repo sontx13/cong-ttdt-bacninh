@@ -8,6 +8,7 @@ import { linK_web, logo_app, img_loading } from "api";
 import { openWebview } from "zmp-sdk";
 import ArticleItem from "components/post/article";
 import "../css/custom.css";
+import { useNavigate } from "react-router";
 
 const { Title } = Text;
 
@@ -134,6 +135,7 @@ const PostPage: React.FC = () => {
   const [page, setPageInfor] = useRecoilState(pageInfor);
   const [articleList, setArticleList] = useState<any[]>([]);
   const [showText, setShowText] = useState(true);
+  const navigate = useNavigate(); 
 
   const onChangeActiveCategory = (id: number) => setActiveCategory(id);
 
@@ -169,8 +171,10 @@ const PostPage: React.FC = () => {
 
   return (
     <Page restoreScrollOnBack className="bg-white">
-    
-      <Icon icon="zi-chevron-left" className="img-logo object-cover"  />
+ 
+      <Box onClick={() => navigate("/")}>
+        <Icon icon="zi-chevron-left" className="object-cover img-logo" />
+      </Box>
 
       <Box mx={3} mb={2} mt={0} style={{ marginLeft: "40px", width: "65%", marginTop:"50px" }}>
         <QuickFilter
