@@ -11,8 +11,70 @@ import { calcFinalPrice } from "utils/product";
 import { wait } from "utils/async";
 import categories from "../mock/categories.json";
 import { Article, PageInfor } from "types/article";
-import { BASE_URL, getbycategory, getcategories } from "api";
+import { BASE_API, BASE_URL, getBanners, getbycategory, getcategories, getConfigs, getHotlines, getInfors } from "api";
+import { Banner, ConfigItem, Hotline, IHelpInfor } from "types";
 
+
+
+export const helpInforsState = selector<IHelpInfor[]>({
+  key: "helpInforsState",
+  get: async () => {
+    try {
+      const response = await fetch(`${BASE_API}/${getInfors}`);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const jsonData = await response.json();
+      return jsonData.data?.result || [];
+    } catch (error) {
+      console.error("Error fetching Hotlines:", error);
+      return [];
+    }
+  },
+});
+
+export const hotlinesState = selector<Hotline[]>({
+  key: "hotlinesState",
+  get: async () => {
+    try {
+      const response = await fetch(`${BASE_API}/${getHotlines}`);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const jsonData = await response.json();
+      return jsonData.data?.result || [];
+    } catch (error) {
+      console.error("Error fetching Hotlines:", error);
+      return [];
+    }
+  },
+});
+
+export const configsState = selector<ConfigItem[]>({
+  key: "configsState",
+  get: async () => {
+    try {
+      const response = await fetch(`${BASE_API}/${getConfigs}`);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const jsonData = await response.json();
+      return jsonData.data?.result || [];
+    } catch (error) {
+      console.error("Error fetching configs:", error);
+      return [];
+    }
+  },
+});
+
+export const bannersState = selector<Banner[]>({
+  key: "bannersState",
+  get: async () => {
+    try {
+      const response = await fetch(`${BASE_API}/${getBanners}`);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const jsonData = await response.json();
+      return jsonData.data?.result || [];
+    } catch (error) {
+      console.error("Error fetching banners:", error);
+      return [];
+    }
+  },
+});
 
 export const hotNewsState = selector<Article[]>({
   key: "hotNews",

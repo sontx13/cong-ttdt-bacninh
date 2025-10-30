@@ -4,32 +4,12 @@ import { Box, Button, Header, Page, Text } from "zmp-ui";
 import { ListRenderer } from "components/list-renderer";
 import { BASE_API, getHotlines, logo_app, urlImage } from "api";
 import { openPhone } from "zmp-sdk";
+import { useRecoilValue } from "recoil";
+import { hotlinesState } from "state";
 
-interface IHotline {
-  id: number;
-  name: string;
-  phone_number: string;
-  icon?: string;
-}
 
 const HotlinePage: FC = () => {
-  const [hotlines, setHotlines] = useState<IHotline[]>([]);
-
-  const fetchHotlines = async () => {
-    try {
-      const response = await fetch(`${BASE_API}/${getHotlines}`);
-      if (!response.ok) throw new Error("Network response was not ok");
-      const jsonData = await response.json();
-      //console.log("📦 Hotlines API response:", JSON.stringify(jsonData));
-      setHotlines(jsonData.data?.result || []);
-    } catch (error) {
-      //console.error("Error fetching Hotlines:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchHotlines();
-  }, []);
+  const hotlines = useRecoilValue(hotlinesState); 
 
   // Tạo danh sách hiển thị phù hợp cho ListRenderer
   const hotlineItems = hotlines.map((hotline) => ({

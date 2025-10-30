@@ -76,7 +76,7 @@ const PostPage: React.FC = () => {
   if (newsLoadable.state === "loading") {
     return (
       <Page className="bg-white flex justify-center items-center h-screen">
-        <Icon icon="zi-auto" className="text-blue-500 animate-spin w-10 h-10"/>
+        <Icon icon="zi-backup-arrow-solid" className="text-blue-500 animate-spin w-10 h-10"/>
       </Page>
     );
   }
@@ -118,7 +118,7 @@ const PostPageWithSuspense: React.FC = () => (
     fallback={
       <Page className="flex justify-center items-center h-screen bg-white">
         {/* <img src={img_loading} alt="loading" className="w-12 h-12 animate-spin" /> */}
-        <Icon icon="zi-auto" className="text-blue-500 animate-spin w-10 h-10"/>
+        <Icon icon="zi-backup-arrow-solid" className="text-blue-500 animate-spin w-10 h-10"/>
       </Page>
     }
   >

@@ -4,28 +4,12 @@ import { Pagination, Autoplay } from "swiper";
 import { Box } from "zmp-ui";
 import { BASE_API,urlImage,getBanners } from "../../api";
 import { openWebview } from "zmp-sdk";
-
-
-interface IBanner {
-  id: number;
-  image: string;
-  url: string;
-}
+import { useRecoilValue } from "recoil";
+import { bannersState } from "state";
 
 export const Banner: FC = () => {
-  const [banners, setBanners] = useState<IBanner[]>([]);
-
-  const fetchBanners = async () => {
-    try {
-      const response = await fetch(`${BASE_API}/${getBanners}`);
-      if (!response.ok) throw new Error("Network response was not ok");
-      const jsonData = await response.json();
-      //console.log("📦 Banners API response:", JSON.stringify(jsonData));
-      setBanners(jsonData.data?.result || []);
-    } catch (error) {
-      console.error("Error fetching banners:", error);
-    }
-  };
+ 
+  const banners = useRecoilValue(bannersState);
 
   const openUrlInWebview = async (url: string) => {
     if (!url) return;
@@ -43,10 +27,6 @@ export const Banner: FC = () => {
       window.open(url, "_blank");
     }
   };
-
-  useEffect(() => {
-    fetchBanners();
-  }, []);
 
   return (
     <Box className="bg-white" pb={4}>

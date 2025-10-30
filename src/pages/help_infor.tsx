@@ -1,36 +1,30 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { Divider } from "components/divider";
-import { Box, Button, Header, Icon, Page, Text, useSnackbar } from "zmp-ui";
+import { Box, Header, Icon, Page, Text, useSnackbar } from "zmp-ui";
 import { ListRenderer } from "components/list-renderer";
-import { BASE_API, getInfors, logo_app, urlImage } from "api";
-import { openPhone, openWebview } from "zmp-sdk";
+import { logo_app, urlImage } from "api";
+import { openWebview } from "zmp-sdk";
+import { IHelpInfor } from "types";
+import { helpInforsState } from "state";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 
-interface IHelpInfor {
-  id: number;
-  name: string;
-  url: string;
-  icon?: string;
-}
 
 const HelpInforPage: FC = () => {
-  const [helpInfors, setInfors] = useState<IHelpInfor[]>([]);
+  
   const { openSnackbar } = useSnackbar();
 
-  const fetchInfors = async () => {
-    try {
-      const response = await fetch(`${BASE_API}/${getInfors}`);
-      if (!response.ok) throw new Error("Network response was not ok");
-      const jsonData = await response.json();
-      //console.log("📦 Infors API response:", JSON.stringify(jsonData));
-      setInfors(jsonData.data?.result || []);
-    } catch (error) {
-      //console.error("Error fetching Infors:", error);
-    }
-  };
+  const helpInforsLoadable  = useRecoilValueLoadable(helpInforsState); 
 
-  useEffect(() => {
-    fetchInfors();
-  }, []);
+  if (helpInforsLoadable.state === "loading") {
+    return <div className="p-4 text-center">Đang tải dữ liệu...</div>;
+  }
+
+  if (helpInforsLoadable.state === "hasError") {
+    console.error(helpInforsLoadable.contents);
+    return <div className="p-4 text-center text-red-500">Lỗi tải dữ liệu</div>;
+  }
+
+  const helpInfors = helpInforsLoadable.contents || [];
 
   const openUrlInWebview = async (url: string) => {
     try {
