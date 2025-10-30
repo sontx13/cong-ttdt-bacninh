@@ -7,18 +7,6 @@ import {
   pageInfor,
 } from "../state";
 
-function Inquiry() {
-  const [keyword, setKeyword] = useRecoilState(keywordState);
-
-  return (
-    <Input.Search
-      value={keyword}
-      onChange={(e) => setKeyword(e.target.value)}
-      className="inquiry my-4 h-8 border-none bg-white"
-      placeholder="Tìm kiếm"
-    />
-  );
-}
 
 export function QuickFilter({activeCategory, onChangeActiveCategory}) {
   
@@ -79,4 +67,4 @@ export function QuickFilter({activeCategory, onChangeActiveCategory}) {
   );
 }
 
-export default Inquiry;
+export default QuickFilter;
