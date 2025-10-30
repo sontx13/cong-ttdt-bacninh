@@ -13,6 +13,62 @@ import categories from "../mock/categories.json";
 import { Article, PageInfor } from "types/article";
 import { BASE_URL, getbycategory, getcategories } from "api";
 
+
+export const hotNewsState = selector<Article[]>({
+  key: "hotNews",
+  get: async ({ get }) => {
+    const page = get(pageInfor);
+    const dataPost = {
+      pagenumber: page.pagenumber,
+      pagesize: page.pagesize,
+      category_id: 1,
+    };
+
+    try {
+      const response = await fetch(`${BASE_URL}/${getbycategory}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataPost),
+      });
+      const data = await response.json();
+
+      // đảm bảo kiểu an toàn
+      const hotNews = (data?.data || []) as Article[];
+      return hotNews;
+    } catch (error) {
+      console.error("Error fetching hotNews:", error);
+      return []; // tránh undefined
+    }
+  },
+});
+
+export const postsState = selector<Product[]>({
+  key: "posts",
+  get: async () => {
+    await wait(2000);
+    const posts = (await import("../mock/products.json")).default;
+    const variants = (await import("../mock/variants.json"))
+      .default as Variant[];
+    return posts.map(
+      (post) =>
+        ({
+          ...post,
+          variants: variants.filter((variant) =>
+          post.variantId.includes(variant.id)
+          ),
+        } as Product)
+    );
+  },
+});
+
+export const recommendPostsState = selector<Product[]>({
+  key: "recommendPosts",
+  get: ({ get }) => {
+    const posts = get(postsState);
+    return posts.filter((p) => p.sale);
+  },
+});
+
 export const listCategoryState = selector({
   key: "listCategory",
   get: async ({ get }) => {

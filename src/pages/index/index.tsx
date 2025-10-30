@@ -5,6 +5,7 @@ import { Welcome } from "./welcome";
 import { Banner } from "./banner";
 import { Categories } from "./categories";
 import { Recommend } from "./recommend";
+import { Hotnew } from "./hotnew";
 import { ProductList } from "./product-list";
 import { Divider } from "components/divider";
 import { Menus } from "./menu";
@@ -16,14 +17,20 @@ const HomePage: React.FunctionComponent = () => {
       <Box className="flex-1 overflow-auto">
         <Inquiry />
         <Banner />
+        {/* <Suspense>
+          <Categories />
+        </Suspense> */}
+
         <Suspense>
           <Menus />
         </Suspense>
+      
         <Divider />
-        {/* <Recommend />
+        {/* <Recommend /> */}
+        <Hotnew />
         <Divider />
-        <ProductList />
-        <Divider /> */}
+        {/* <ProductList /> */}
+        <Divider />
       </Box>
     </Page>
   );

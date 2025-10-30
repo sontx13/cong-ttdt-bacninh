@@ -54,7 +54,7 @@ const ArticleItem: FunctionComponent<ArticleProps> = ({
         className="relative bg-gray-200 rounded-xl overflow-hidden p-0 restaurant-with-cover"
       >
         {isShow ? (
-          <div className="aspect-cinema relative h-44 hover:w-full hover:m-0 m-2 ">
+          <div className="aspect-cinema relative h-44  m-2 ">
             <img
               src={article.image}
               className="absolute w-full h-full rounded-md"
@@ -64,17 +64,17 @@ const ArticleItem: FunctionComponent<ArticleProps> = ({
         ) : (
           <div className="mb-2"></div>
         )}
-        <Title size="normal" className="ml-2 mr-0 overflow-x-auto">
+        <Title size="normal" className="ml-2 mr-0 overflow-x-auto line-clamp-2">
           {article?.title}
         </Title>
         <div className="m-2">
-          <span className="italic text-base">
-            {`Ngày đăng: ${time} ${article.published_at}`}
+          <span className="italic text-base line-clamp-2">
+            {`Ngày đăng:  ${article.published_at}`}
           </span>
         </div>
         {article.excerpt ? (
-          <div className="m-2 h-20">
-            <span className="min-h-18 text-lg">{article?.excerpt}</span>
+          <div className="m-2 h-18">
+            <span className="min-h-18 text-lg line-clamp-2">{article?.excerpt}</span>
           </div>
         ) : (
           <div></div>

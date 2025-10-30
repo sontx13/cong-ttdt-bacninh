@@ -24,6 +24,8 @@ export const postQAS = "qas";
 export const appId = "11";
 
 export const urlFile = "https://vnptbacninh.com/storage";
+
+export const hotnewId = "1";
   
 export const logo_danvan =
   "https://s120-ava-talk.zadn.vn/7/c/1/7/1/120/7f741c7c14611306553be5c0bb3e4960.jpg";
