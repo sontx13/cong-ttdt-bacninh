@@ -4,6 +4,7 @@ import { Box, Button, Input, Tabs } from "zmp-ui";
 import {
   keywordState,
   listCategoryState,
+  listCateState,
   pageInfor,
 } from "../state";
 
@@ -12,8 +13,8 @@ export function QuickFilter({activeCategory, onChangeActiveCategory}) {
   
   const [page, setPage] = useRecoilState(pageInfor);
 
-  const categories = useRecoilValue(listCategoryState);
-
+  const categories = useRecoilValue(listCateState);
+  console.log("QuickFilter categories==="+JSON.stringify(categories));
   return (
     <Tabs
     scrollable
@@ -28,7 +29,7 @@ export function QuickFilter({activeCategory, onChangeActiveCategory}) {
   >
     {categories.map((categorie) => (
       <Tabs.Tab
-        key={String(categorie.id)}
+        key={String(categorie.sort)}
         label={categorie.name}
         className="px-2"
       >

@@ -11,9 +11,8 @@ import { calcFinalPrice } from "utils/product";
 import { wait } from "utils/async";
 import categories from "../mock/categories.json";
 import { Article, PageInfor } from "types/article";
-import { BASE_API, BASE_URL, getBanners, getbycategory, getcategories, getConfigs, getHotlines, getInfors } from "api";
+import { BASE_API, BASE_URL, getBanners, getbycategory, getcategories, getCategories, getConfigs, getHotlines, getInfors } from "api";
 import { IBanner, IConfig, IHotline, IHelpInfor } from "types";
-
 
 
 export const helpInforsState = selector<IHelpInfor[]>({
@@ -46,7 +45,7 @@ export const hotlinesState = selector<IHotline[]>({
   },
 });
 
-export const configsState = selector<ConfigItem[]>({
+export const configsState = selector<IConfig[]>({
   key: "configsState",
   get: async () => {
     try {
@@ -131,6 +130,21 @@ export const recommendPostsState = selector<Product[]>({
   },
 });
 
+export const listCateState = selector({
+  key: "listCate",
+  get: async () => {
+    try {
+      const response = await fetch(`${BASE_API}/${getCategories}`);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const jsonData = await response.json();
+      return jsonData.data?.result || [];
+    } catch (error) {
+      console.error("Error fetching banners:", error);
+      return [];
+    }
+  },
+});
+
 export const listCategoryState = selector({
   key: "listCategory",
   get: async ({ get }) => {
@@ -150,6 +164,7 @@ export const listCategoryState = selector({
     }
   },
 });
+
 
 export const pageInfor = atom<PageInfor>({
   key: "pageInfor",

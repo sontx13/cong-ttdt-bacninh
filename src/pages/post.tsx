@@ -5,10 +5,8 @@ import {
   categoryNewsState,
   selectedCategoryState,
   listCategoryState,
-  pageInfor,
+  listCateState,
 } from "../state";
-import { Divider } from "../components/divider";
-import { img_loading } from "api";
 import ArticleItem from "components/post/article";
 import "../css/custom.css";
 
@@ -59,7 +57,7 @@ const Popular: React.FC<PopularProps> = ({ news, categoryId }) => {
       ))}
       {isLoading && (
         <div className="div-loading flex justify-center p-4">
-          <img src={img_loading} alt="loading" className="img-register" />
+           <Icon icon="zi-backup-arrow-solid" className="text-blue-500 animate-spin w-10 h-10"/>
         </div>
       )}
     </Box>
@@ -69,7 +67,8 @@ const Popular: React.FC<PopularProps> = ({ news, categoryId }) => {
 // =================== COMPONENT CHÍNH =================== //
 const PostPage: React.FC = () => {
   const newsLoadable = useRecoilValueLoadable(categoryNewsState);
-  const categories = useRecoilValue(listCategoryState);
+  const categories = useRecoilValue(listCateState);
+  console.log("PostPage categories==="+JSON.stringify(categories));
   const [activeCategory, setActiveCategory] =
     useRecoilState(selectedCategoryState);
 
@@ -101,9 +100,9 @@ const PostPage: React.FC = () => {
         className="category-tabs bg-transparent"
       >
         {categories.map((cat) => (
-          <Tabs.Tab key={String(cat.id)} label={cat.name}>
+          <Tabs.Tab key={String(cat.sort)} label={cat.name}>
             <Suspense fallback={<div>Đang tải...</div>}>
-              <Popular news={news} categoryId={cat.id} />
+              <Popular news={news} categoryId={cat.sort} />
             </Suspense>
           </Tabs.Tab>
         ))}
@@ -117,7 +116,6 @@ const PostPageWithSuspense: React.FC = () => (
   <Suspense
     fallback={
       <Page className="flex justify-center items-center h-screen bg-white">
-        {/* <img src={img_loading} alt="loading" className="w-12 h-12 animate-spin" /> */}
         <Icon icon="zi-backup-arrow-solid" className="text-blue-500 animate-spin w-10 h-10"/>
       </Page>
     }
