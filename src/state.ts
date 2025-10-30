@@ -12,7 +12,7 @@ import { wait } from "utils/async";
 import categories from "../mock/categories.json";
 import { Article, PageInfor } from "types/article";
 import { BASE_API, BASE_URL, getBanners, getbycategory, getcategories, getConfigs, getHotlines, getInfors } from "api";
-import { Banner, ConfigItem, Hotline, IHelpInfor } from "types";
+import { IBanner, IConfig, IHotline, IHelpInfor } from "types";
 
 
 
@@ -31,7 +31,7 @@ export const helpInforsState = selector<IHelpInfor[]>({
   },
 });
 
-export const hotlinesState = selector<Hotline[]>({
+export const hotlinesState = selector<IHotline[]>({
   key: "hotlinesState",
   get: async () => {
     try {
@@ -61,7 +61,7 @@ export const configsState = selector<ConfigItem[]>({
   },
 });
 
-export const bannersState = selector<Banner[]>({
+export const bannersState = selector<IBanner[]>({
   key: "bannersState",
   get: async () => {
     try {

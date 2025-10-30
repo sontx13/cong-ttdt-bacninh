@@ -1,10 +1,10 @@
-export interface Banner {
+export interface IBanner {
   id: number;
   image: string;
   url: string;
 }
 
-export interface ConfigItem {
+export interface IConfig {
   id: number;
   name: string;
   icon: string;
@@ -12,7 +12,7 @@ export interface ConfigItem {
   type: number;
 }
 
-export interface Hotline {
+export interface IHotline {
   id: number;
   name: string;
   phone_number: string;

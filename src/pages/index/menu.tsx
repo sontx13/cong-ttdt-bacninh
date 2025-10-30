@@ -6,7 +6,7 @@ import { BASE_API, getConfigs, urlImage } from "../../api";
 import { openWebview } from "zmp-sdk/apis";
 import { useRecoilValue } from "recoil";
 import { configsState } from "state";
-import { ConfigItem } from "types";
+import { IConfig } from "types";
 
 
 export const Menus: FC = () => {
@@ -29,7 +29,7 @@ export const Menus: FC = () => {
     }
   };
 
-  const handleClick = (config: ConfigItem) => {
+  const handleClick = (config: IConfig) => {
     if (config.url){
       if (config.type === 1 ) {
         //console.log("openUrlInWebview:"+ config.url)
