@@ -4,12 +4,23 @@ import { Box, Button, Header, Page, Text } from "zmp-ui";
 import { ListRenderer } from "components/list-renderer";
 import { BASE_API, getHotlines, logo_app, urlImage } from "api";
 import { openPhone } from "zmp-sdk";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { hotlinesState } from "state";
 
 
 const HotlinePage: FC = () => {
-  const hotlines = useRecoilValue(hotlinesState); 
+  const hotlinesLoadable  = useRecoilValueLoadable(hotlinesState); 
+
+  if (hotlinesLoadable.state === "loading") {
+    return <div className="p-4 text-center">Đang tải dữ liệu...</div>;
+  }
+
+  if (hotlinesLoadable.state === "hasError") {
+    console.error(hotlinesLoadable.contents);
+    return <div className="p-4 text-center text-red-500">Lỗi tải dữ liệu</div>;
+  }
+
+  const hotlines = hotlinesLoadable.contents || [];
 
   // Tạo danh sách hiển thị phù hợp cho ListRenderer
   const hotlineItems = hotlines.map((hotline) => ({
