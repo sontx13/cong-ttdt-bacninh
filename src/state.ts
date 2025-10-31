@@ -11,7 +11,7 @@ import { calcFinalPrice } from "utils/product";
 import { wait } from "utils/async";
 import categories from "../mock/categories.json";
 import { Article, PageInfor } from "types/article";
-import { BASE_API, BASE_URL, getBanners, getbycategory, getcategories, getCategories, getConfigs, getHotlines, getInfors } from "api";
+import { BASE_API, BASE_URL, getArticles, getBanners, getbycategory, getcategories, getCategories, getConfigs, getHotlines, getInfors } from "api";
 import { IBanner, IConfig, IHotline, IHelpInfor } from "types";
 
 
@@ -79,22 +79,26 @@ export const hotNewsState = selector<Article[]>({
   key: "hotNews",
   get: async ({ get }) => {
     const page = get(pageInfor);
-    const dataPost = {
-      pagenumber: page.pagenumber,
-      pagesize: page.pagesize,
-      category_id: 1,
-    };
+    // const dataPost = {
+    //   pagenumber: page.pagenumber,
+    //   pagesize: page.pagesize,
+    //   category_id: 1,
+    // };
 
     try {
-      const response = await fetch(`${BASE_URL}/${getbycategory}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataPost),
-      });
+      // const response = await fetch(`${BASE_URL}/${getbycategory}`, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(dataPost),
+      // });
+
+      const response = await fetch(`${BASE_API}/${getArticles}&isnew=true`);
+      
       const data = await response.json();
 
       // đảm bảo kiểu an toàn
-      const hotNews = (data?.data || []) as Article[];
+      const hotNews = (data?.data.result || []) as Article[];
+      //console.log("getArticles==="+JSON.stringify(hotNews));
       return hotNews;
     } catch (error) {
       console.error("Error fetching hotNews:", error);

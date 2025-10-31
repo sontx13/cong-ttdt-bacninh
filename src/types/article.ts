@@ -1,15 +1,16 @@
 export interface Article {
   id: number;
-  cat_id: number;
-  cat_name: string;
-  is_show_image: number;
-  author_id: number;
-  category_id: number;
   title: string;
-  excerpt: string;
-  image: string;
-  url_title: string;
-  published_at: Date;
+  titleCut: string;
+  imageUrl: string;
+  summary: string;
+  content: string;
+  createdDate: string;
+  urlDetail: string;
+  author: string;
+  viewCount: number;
+  cateName: string;
+  cateId: number;
 }
 
 export interface PageInfor {

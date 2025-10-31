@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 import { Article } from "types/article";
 import { convertDay } from "components/format/day";
+import { urlImageArticle } from "api";
+
 
 const { Title } = Text;
 
@@ -28,18 +30,18 @@ const NewsItem: FunctionComponent<NewsProps> = ({
   };
 
   if (layout === "cover") {
-    const date = new Date(article.published_at);
-    const time = convertDay(date);
+    //const date = new Date(article.published_at);
+    //const time = convertDay(date);
     return (
       <Page
         restoreScrollOnBack
         onClick={onClick ?? viewDetail}
         className="relative overflow-hidden p-0 restaurant-with-cover"
       >
-        {article.image != null ? (
+        {article.imageUrl != null ? (
           <div className="aspect-cinema relative h-44  ">
             <img
-              src={article.image}
+              src={`${urlImageArticle}${article.imageUrl}`}
               className="absolute w-full h-full "
             />
           </div>
@@ -47,11 +49,11 @@ const NewsItem: FunctionComponent<NewsProps> = ({
           <div className="mb-2"></div>
         )}
         <Title size="normal" className="line-clamp-2">
-          {article?.title}
+          {article?.titleCut}
         </Title>
         <div className="">
           <span className="italic text-base">
-            {`Ngày đăng: ${article.published_at}`}
+            {`Ngày đăng: ${article.createdDate}`}
           </span>
         </div>
       </Page>

@@ -1,77 +1,97 @@
-import { createElement, ReactNode, useEffect, useState } from "react";
-import { Box, Button, Header, Icon, Page, Text } from "zmp-ui";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Box, Header, Page, Text } from "zmp-ui";
 import { useLocation } from "react-router-dom";
-import { BASE_URL, getArticleDetail } from "api";
-import { convertDay } from "../../components/format/day";
-import "../../css/custom.css";
 import { Article } from "types/article";
+import { BASE_API, getArticleById, urlImageArticle, imageDefaut } from "api";
+import "../../css/custom.css";
 
 const { Title } = Text;
 
 function ArticleDetail() {
   const location = useLocation();
-  const id = location.state.data;
-  const [data, setData] = useState<Article>();
+  const id = location.state?.data; // Lấy id từ location.state
+  const [article, setArticle] = useState<Article | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const convertImageSrcAndStyle = (html: string) => {
+    if (!html) return "";
+    return html.replace(/<img\s+src="(\/[^"]+)"/g, '<img src="https://bacninh.gov.vn$1" style="width:100%; height:250px;"');
+  };
 
   useEffect(() => {
-    const getData = async () => {
+    if (!id) return;
+
+    const fetchArticle = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/${getArticleDetail}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: id }),
-        });
-        const data = await response.json();
-        const result = data.data;
-        setData(result);
+        const response = await fetch(`${BASE_API}/${getArticleById}/${id}`);
+        const json = await response.json();
+
+        if (json?.data) {
+          setArticle(json.data); // Gán trực tiếp object
+        } else {
+          setArticle(null);
+        }
       } catch (error) {
-        console.log(error, "error load article detail");
+        console.error("Error loading article detail:", error);
+        setArticle(null);
+      } finally {
+        setLoading(false);
       }
     };
-    getData();
+
+    fetchArticle();
   }, [id]);
 
-  if (data) {
-    const date = new Date(data[0].published_at);
-    const time = convertDay(date);
-    const body = data[0].body;
+  if (loading) {
     return (
       <Page className="min-h-0">
-        <Header title="Chi tiết tin tức"/>
-        {/* <Header className="header-detail" title="Chi tiết tin tức" />  */}
-        <Box>
-          <div className="aspect-cinema relative h-44">
-            <img
-              src={data[0].image}
-              className="absolute w-full h-full rounded-md "
-            />
-            <div className="text-justify text-white bg-teal-700 bg-opacity-50 absolute top-0 w-full h-full">
-              <Title className="m-2 mt-5 text-xl">{data[0].title}</Title>
-              <Text className="text-right italic m-2 mt-5">
-                {time}
-                {data[0].published_at}
-              </Text>
-            </div>
-          </div>
-        </Box>
-        <Box>
-          <Text className="m-2 mb-5 font-semibold text-lg">
-            {data[0].excerpt}
-          </Text>
-          <div
-            className="body-convert"
-            dangerouslySetInnerHTML={{
-              __html: body,
-            }}
-          />
-        </Box>
+        <Header title="Chi tiết tin tức" />
+        <Text className="m-2">Đang tải...</Text>
       </Page>
     );
   }
-  return <></>;
+
+  if (!article) {
+    return (
+      <Page className="min-h-0">
+        <Header title="Chi tiết tin tức" />
+        <Text className="m-2">Không có dữ liệu</Text>
+      </Page>
+    );
+  }
+
+  return (
+    <Page className="min-h-0">
+      <Header title="Chi tiết tin tức" />
+
+      <Box>
+        <div className="aspect-cinema relative h-44">
+          <img
+            src={article.imageUrl ? `${urlImageArticle}${article.imageUrl}` : imageDefaut}
+            className="absolute w-full h-full rounded-md"
+          />
+          <div className="text-justify text-white bg-teal-700 bg-opacity-50 absolute top-0 w-full h-full">
+            <Title className="m-2 mt-5 text-xl">{article.titleCut}</Title>
+            <Text className="text-right italic m-2 mt-5">{article.createdDate}</Text>
+          </div>
+        </div>
+      </Box>
+
+      <Box>
+        {article.summary && (
+          <div
+            className="body-convert m-2 mb-5 font-semibold text-lg"
+            dangerouslySetInnerHTML={{ __html: article.summary }}
+          />
+        )}
+        {article.content && (
+            <div
+              className="body-convert m-2"
+              dangerouslySetInnerHTML={{ __html: convertImageSrcAndStyle(article.content) }}
+            />
+          )}
+      </Box>
+    </Page>
+  );
 }
 
 export default ArticleDetail;
