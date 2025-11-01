@@ -8,7 +8,7 @@ export const Inquiry: FC = () => {
     <Box p={4} className="bg-white">
       <Input.Search
         onFocus={() => navigate("/search")}
-        placeholder="Tìm kiếm ..."
+        placeholder="Tìm kiếm tin tức..."
       />
     </Box>
   );

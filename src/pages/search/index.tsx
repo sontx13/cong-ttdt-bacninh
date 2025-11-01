@@ -1,14 +1,15 @@
 import React, { FC } from "react";
 import { Header, Page } from "zmp-ui";
 import { Inquiry } from "./inquiry";
-import { SearchResult } from "./result";
+import { SearchResultArticle } from "./result_article";
 
 const SearchPage: FC = () => {
   return (
     <Page className="flex flex-col">
-      <Header title="Tìm kiếm" />
+      <Header title="Tìm kiếm tin tức" />
       <Inquiry />
-      <SearchResult />
+      {/* <SearchResult /> */}
+      <SearchResultArticle/>
     </Page>
   );
 };

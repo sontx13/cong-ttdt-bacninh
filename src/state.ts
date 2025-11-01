@@ -311,6 +311,41 @@ export const keywordState = atom({
   default: "",
 });
 
+export const resultArticleState = selector<Article[]>({
+  key: "resultArticleState",
+  get: async ({ get }) => {
+    const keyword = get(keywordState).trim();
+
+    // 🔸 Nếu chưa nhập từ khóa, trả về rỗng
+    if (!keyword) {
+      return [];
+    }
+
+    try {
+      const url = `${BASE_API}/${getArticles}&titleCut=${encodeURIComponent(
+        keyword
+      )}`;
+
+      console.log("🔎 Fetching search articles:", url);
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Lỗi mạng: ${response.statusText}`);
+      }
+
+      const jsonData = await response.json();
+      const articles = (jsonData?.data?.result || []) as Article[];
+
+      console.log("✅ resultArticleState articles =", articles);
+
+      return articles;
+    } catch (error) {
+      console.error("❌ Lỗi khi tìm kiếm bài viết:", error);
+      return [];
+    }
+  },
+});
+
 export const resultState = selector<Product[]>({
   key: "result",
   get: async ({ get }) => {

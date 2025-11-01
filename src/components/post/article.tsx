@@ -36,7 +36,7 @@ const ArticleItem: FunctionComponent<ArticleProps> = ({
       <Page
         restoreScrollOnBack
         onClick={onClick ?? viewDetail}
-        className="relative bg-gray-200 rounded-xl  p-0 restaurant-with-cover"
+        className="relative bg-gray-200  p-0 restaurant-with-cover"
       >
         {article.imageUrl != null ? (
           <div className="aspect-cinema relative h-44  m-2 ">
@@ -48,7 +48,7 @@ const ArticleItem: FunctionComponent<ArticleProps> = ({
                     : `${urlImageArticle}${article.imageUrl}`
                   : imageDefaut
               }
-              className="absolute w-full h-full rounded-md"
+              className="absolute w-full h-full "
             />
           </div>
         ) : (
