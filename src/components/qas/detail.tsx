@@ -33,18 +33,18 @@ const QASDetail = () => {
   }, []);
 
 
-  const boxTitle = {
+  const boxTitle: React.CSSProperties = {
     fontSize: '18px',
     textAlign: 'center',
     lineHeight: '1.1',
     fontWeight: 'bold',
   }
-  const boxTit = {
+  const boxTit: React.CSSProperties = {
     backgroundColor: 'rgb(248 251 234)',
     borderRadius: '10px',
     border: '1px solid grey'
   }
-  const boxContent = {
+  const boxContent: React.CSSProperties = {
     borderRadius: '10px',
     padding: '5px 15px',
     textAlign: 'justify',
@@ -54,14 +54,14 @@ const QASDetail = () => {
     link = `${urlFile}/${qas.url_tai_lieu}`
   }
 
-  const colorBlue = {
+  const colorBlue: React.CSSProperties = {
     color: '#1c6cb3',
     fontWeight: 'bold'
   }
-  const fontWeight = {
+  const fontWeight: React.CSSProperties = {
     fontWeight: 'bold'
   }
-  const line = {
+  const line: React.CSSProperties = {
     width: '100%',
     height: '1px',
     background: '#dfdfdf'
@@ -73,23 +73,23 @@ const QASDetail = () => {
       <Box mx={4} my={4}>
         <div style={boxContent}>
           {/* <p>  <Icon icon="zi-help-circle" size={20} />  Vấn đề PAKN: <span style={colorBlue}>{qas.tieu_de}</span></p> */}
-          <p> <Icon icon="zi-user" size={20} />   Người gửi: <span >{qas.name_q}</span></p>
+          <p> <Icon icon="zi-user" size={20} />   Người gửi: <span >{qas.nameQ}</span></p>
           {/* <p> <Icon icon="zi-filter" size={20} />  {qas.dia_chi}</p> */}
           <p>  <Icon icon="zi-help-circle" size={20} />  Câu hỏi: <span  style={fontWeight}
             dangerouslySetInnerHTML={{
-              __html: qas.content_q,
+              __html: qas.contentQ,
             }}
           /></p>
           {/* {qas.url_tai_lieu != null ? <> <p>Danh sách file đính kèm: <span><a style={colorBlue} onClick={() => {
             setPopupVisible(true)
           }}>Xem</a></span></p></> : <> </>} */}
         </div>
-        {qas.content_a == null || qas.content_a == "" ? <></> : <>
+        {qas.contentA == null || qas.contentA == "" ? <></> : <>
           <p style={line}></p>
           <div style={boxContent}>
             <p>  <Icon icon="zi-check" size={20} />  Trả lời: <span style={colorBlue}>   <span
               dangerouslySetInnerHTML={{
-                __html: qas.content_a,
+                __html: qas.contentA,
               }}
             /> </span></p>
           </div></>}

@@ -38,7 +38,7 @@ const NewsItem: FunctionComponent<NewsProps> = ({
         className="relative overflow-hidden p-0 restaurant-with-cover"
       >
         {article.imageUrl != null ? (
-          <div className="aspect-cinema relative h-44  ">
+          <div className="aspect-cinema relative h-44 ">
             <img
                src={
                 article.imageUrl

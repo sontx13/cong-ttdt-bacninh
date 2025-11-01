@@ -24,11 +24,11 @@ const CreateQAS = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name_q: name,
-          phone_q: phone,
-          email_q: email,
-          time_q: new Date().toISOString(),
-          content_q: content,
+          nameQ: name,
+          phoneQ: phone,
+          emailQ: email,
+          timeQ: new Date().toISOString(),
+          contentQ: content,
           app: {"id":`${appId}`}
         }),
       })
@@ -78,16 +78,16 @@ const CreateQAS = () => {
   //     });
   // };
 
-  const boxTitle = {
+  const boxTitle: React.CSSProperties = {
     fontSize: '25px',
     textAlign: 'center',
     lineHeight: '1.1',
     fontWeight: 'bold',
   }
-  const boxTit = {
+  const boxTit: React.CSSProperties = {
     borderRadius: '10px',
   }
-  const boxContent = {
+  const boxContent: React.CSSProperties = {
     borderRadius: '10px',
     marginTop: '10px',
     padding: '20px'

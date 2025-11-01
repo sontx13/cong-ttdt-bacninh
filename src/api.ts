@@ -15,12 +15,12 @@ export const getHotlines = "hotlines?current=1&pageSize=100&sort=sort,asc&app.id
 
 export const getInfors = "infors?current=1&pageSize=100&sort=sort,asc&app.id=11&active=true";
 
-export const getQAS = "qas?current=1&pageSize=100&app.id=11&sortBy=time_q&order=desc&active=true";
+export const getQAS = "qas?current=1&pageSize=100&app.id=11&sort=timeQ,desc&order=desc&active=true";
 
 //tin tuc
 export const getCategories = "categories?page=1&size=100&sort=sort,asc&app.id=11&active=true";
 
-export const getArticles = "articles?page=1&size=20&sortBy=createDate&app.id=11";
+export const getArticles = "articles?page=1&size=20&sort=createdDate,desc&app.id=11";
 
 export const getArticleById = "articles";
 

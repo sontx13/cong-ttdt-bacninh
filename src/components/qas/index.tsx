@@ -23,35 +23,35 @@ const QAS: FunctionComponent<QASItemProps> = ({ qas }) => {
   };
 
 
-  const customStyle = {
+  const customStyle: React.CSSProperties = {
     padding: '10px',
     borderRadius: '10px',
     width: '100%',
   };
-  const titleColor = {
+  const titleColor: React.CSSProperties = {
     color: '#1a6ab9',
     fontWeight: 'bold'
   };
-  const fontWeight = {
+  const fontWeight: React.CSSProperties = {
     fontWeight: 'bold'
   };
-  const checkflex = {
+  const checkflex: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
   };
-  const success = {
+  const success: React.CSSProperties = {
     color: 'green',
     marginRight: '3px'
   };
-  const primary = {
+  const primary: React.CSSProperties = {
     marginRight: '3px'
   };
-  const danger = {
+  const danger: React.CSSProperties = {
     color: 'red',
     marginRight: '3px'
   };
-  const lineHeight = {
+  const lineHeight: React.CSSProperties = {
     lineHeight: '2.0'
   }
 
@@ -69,10 +69,10 @@ const QAS: FunctionComponent<QASItemProps> = ({ qas }) => {
     >
       <div style={customStyle}>
         <div >
-          <Icon icon="zi-user" size={20} /> {qas.name_q} 
+          <Icon icon="zi-user" size={20} /> {qas.nameQ} 
         </div>
         <div >
-          <Icon icon="zi-reminder" size={20} /> {formatDate(qas.time_q)}
+          <Icon icon="zi-reminder" size={20} /> {formatDate(qas.timeQ)}
         </div>
         {/* <div>
           {qas.active == 1 ? <>
@@ -86,7 +86,7 @@ const QAS: FunctionComponent<QASItemProps> = ({ qas }) => {
         <div >
           <Icon icon="zi-help-circle" size={20} />  Câu hỏi:  <span  style={fontWeight}
             dangerouslySetInnerHTML={{
-              __html: qas.content_q,
+              __html: qas.contentQ,
             }}
           />
         </div>
