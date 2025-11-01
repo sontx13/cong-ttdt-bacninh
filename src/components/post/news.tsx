@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FunctionComponent } from "react";
 import { Page, Text } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 
 import { Article } from "types/article";
-import { convertDay } from "components/format/day";
-import { urlImageArticle } from "api";
+import { urlImageArticle,imageDefaut } from "api";
 
 
 const { Title } = Text;
@@ -41,7 +40,13 @@ const NewsItem: FunctionComponent<NewsProps> = ({
         {article.imageUrl != null ? (
           <div className="aspect-cinema relative h-44  ">
             <img
-              src={`${urlImageArticle}${article.imageUrl}`}
+               src={
+                article.imageUrl
+                  ? article.imageUrl.startsWith("http")
+                    ? article.imageUrl
+                    : `${urlImageArticle}${article.imageUrl}`
+                  : imageDefaut
+              }
               className="absolute w-full h-full "
             />
           </div>

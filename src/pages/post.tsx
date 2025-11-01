@@ -4,8 +4,8 @@ import { useRecoilValueLoadable, useRecoilState, useRecoilValue } from "recoil";
 import {
   categoryNewsState,
   selectedCategoryState,
-  listCategoryState,
   listCateState,
+  activeCategoryState, // ✅ thêm state này
 } from "../state";
 import ArticleItem from "components/post/article";
 import "../css/custom.css";
@@ -19,7 +19,7 @@ interface PopularProps {
 }
 
 const Popular: React.FC<PopularProps> = ({ news, categoryId }) => {
-  const filtered = news.filter((n) => n.cat_id === categoryId);
+  const filtered = news.filter((n) => n.category?.id === categoryId);
   const [visibleList, setVisibleList] = useState<any[]>([]);
   const [chunk, setChunk] = useState(50);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +49,7 @@ const Popular: React.FC<PopularProps> = ({ news, categoryId }) => {
   }
 
   return (
-    <Box onScroll={handleScroll} className=" h-screen">
+    <Box onScroll={handleScroll} className="h-screen ">
       {visibleList.map((item) => (
         <Box key={item.id} m={3}>
           <ArticleItem layout="cover" article={item} activeCate={categoryId} />
@@ -57,7 +57,10 @@ const Popular: React.FC<PopularProps> = ({ news, categoryId }) => {
       ))}
       {isLoading && (
         <div className="div-loading flex justify-center p-4">
-           <Icon icon="zi-backup-arrow-solid" className="text-blue-500 animate-spin w-10 h-10"/>
+          <Icon
+            icon="zi-backup-arrow-solid"
+            className="text-blue-500 animate-spin w-10 h-10"
+          />
         </div>
       )}
     </Box>
@@ -68,14 +71,16 @@ const Popular: React.FC<PopularProps> = ({ news, categoryId }) => {
 const PostPage: React.FC = () => {
   const newsLoadable = useRecoilValueLoadable(categoryNewsState);
   const categories = useRecoilValue(listCateState);
-  console.log("PostPage categories==="+JSON.stringify(categories));
-  const [activeCategory, setActiveCategory] =
-    useRecoilState(selectedCategoryState);
+  const activeCategory = useRecoilValue(activeCategoryState); // ✅ lấy category thực tế
+  const [, setSelectedCategory] = useRecoilState(selectedCategoryState); // ✅ để cập nhật khi user chọn tab mới
 
   if (newsLoadable.state === "loading") {
     return (
       <Page className="bg-white flex justify-center items-center h-screen">
-        <Icon icon="zi-backup-arrow-solid" className="text-blue-500 animate-spin w-10 h-10"/>
+        <Icon
+          icon="zi-backup-arrow-solid"
+          className="text-blue-500 animate-spin w-10 h-10"
+        />
       </Page>
     );
   }
@@ -96,13 +101,13 @@ const PostPage: React.FC = () => {
       <Tabs
         scrollable
         activeKey={String(activeCategory)}
-        onChange={(key) => setActiveCategory(parseInt(key))}
+        onChange={(key) => setSelectedCategory(parseInt(key))} // ✅ khi chọn tab thì lưu lại
         className="category-tabs bg-transparent"
       >
         {categories.map((cat) => (
-          <Tabs.Tab key={String(cat.sort)} label={cat.name}>
+          <Tabs.Tab key={String(cat.id)} label={cat.name}>
             <Suspense fallback={<div>Đang tải...</div>}>
-              <Popular news={news} categoryId={cat.sort} />
+              <Popular news={news} categoryId={cat.id} />
             </Suspense>
           </Tabs.Tab>
         ))}
@@ -116,7 +121,10 @@ const PostPageWithSuspense: React.FC = () => (
   <Suspense
     fallback={
       <Page className="flex justify-center items-center h-screen bg-white">
-        <Icon icon="zi-backup-arrow-solid" className="text-blue-500 animate-spin w-10 h-10"/>
+        <Icon
+          icon="zi-backup-arrow-solid"
+          className="text-blue-500 animate-spin w-10 h-10"
+        />
       </Page>
     }
   >

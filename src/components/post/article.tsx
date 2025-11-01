@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 import { Page, Text } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
-
 import { Article } from "types/article";
-import { convertDay } from "components/format/day";
+import { urlImageArticle,imageDefaut } from "api";
 
 const { Title } = Text;
 
@@ -26,59 +25,44 @@ const ArticleItem: FunctionComponent<ArticleProps> = ({
   onClick,
 }) => {
   const navigate = useNavigate();
-  // const [imgSrc, setImgSrc] = useState<string | null>(article.image);
-  const [isShow, setIsShow] = useState(false)
-
-  useEffect(() => {
-    if(activeCate === 1 || activeCate === 2) {
-      setIsShow(true)
-    }
-  }, [])
-
-  const onError = () => {
-    setIsShow(!isShow)
-  }
-
-
+ 
   const viewDetail = () => {
     navigate("/article", { state: { data: article.id } });
   };
 
   if (layout === "cover") {
-    const date = new Date(article.published_at);
-    const time = convertDay(date);
+
     return (
       <Page
         restoreScrollOnBack
         onClick={onClick ?? viewDetail}
-        className="relative bg-gray-200 rounded-xl overflow-hidden p-0 restaurant-with-cover"
+        className="relative bg-gray-200 rounded-xl  p-0 restaurant-with-cover"
       >
-        {isShow ? (
+        {article.imageUrl != null ? (
           <div className="aspect-cinema relative h-44  m-2 ">
             <img
-              src={article.image}
+              src={
+                article.imageUrl
+                  ? article.imageUrl.startsWith("http")
+                    ? article.imageUrl
+                    : `${urlImageArticle}${article.imageUrl}`
+                  : imageDefaut
+              }
               className="absolute w-full h-full rounded-md"
-              onError={onError}
             />
           </div>
         ) : (
           <div className="mb-2"></div>
         )}
         <Title size="normal" className="ml-2 mr-0 overflow-x-auto line-clamp-2">
-          {article?.title}
+          {article?.titleCut}
         </Title>
         <div className="m-2">
           <span className="italic text-base line-clamp-2">
-            {`Ngày đăng:  ${article.published_at}`}
+            {`Ngày đăng:  ${article.createdDate}`}
           </span>
         </div>
-        {article.excerpt ? (
-          <div className="m-2 h-18">
-            <span className="min-h-18 text-lg line-clamp-2">{article?.excerpt}</span>
-          </div>
-        ) : (
-          <div></div>
-        )}
+        
       </Page>
     );
   }

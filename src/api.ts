@@ -17,6 +17,7 @@ export const getInfors = "infors?current=1&pageSize=100&sort=sort,asc&app.id=11&
 
 export const getQAS = "qas?current=1&pageSize=100&app.id=11&sortBy=time_q&order=desc&active=true";
 
+//tin tuc
 export const getCategories = "categories?page=1&size=100&sort=sort,asc&app.id=11&active=true";
 
 export const getArticles = "articles?page=1&size=20&sortBy=createDate&app.id=11";
@@ -44,7 +45,5 @@ export const zalo_info =
   "https://graph.zalo.me/v2.0/me?fields=id%2Cname%2Cpicture";
 export const secretKey = "GkRDIXyw36LZoN5S4vEU";
 
-//tin tuc
-export const getcategories = "news/getcategories";
-export const getbycategory = "news/getbycategory";
-export const getArticleDetail = "news/getnews";
+
+

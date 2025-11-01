@@ -14,8 +14,40 @@ function ArticleDetail() {
   const [loading, setLoading] = useState<boolean>(true);
   const convertImageSrcAndStyle = (html: string) => {
     if (!html) return "";
-    return html.replace(/<img\s+src="(\/[^"]+)"/g, '<img src="https://bacninh.gov.vn$1" style="width:100%; height:250px;"');
+  
+    return html.replace(
+      /<img\s+([^>]*?)src="([^"]+)"([^>]*)>/g,
+      (match, before, src, after) => {
+        let newSrc = src.trim();
+  
+        // 🔹 Chỉ thêm domain nếu src là đường dẫn tương đối (bắt đầu bằng "/")
+        if (/^\/[^/]/.test(newSrc)) {
+          newSrc = `https://bacninh.gov.vn${newSrc}`;
+        }
+  
+        // 🔹 Nếu src đã là https:// hoặc http:// thì giữ nguyên
+        // (regex trên đảm bảo không đụng vào mấy cái đó)
+  
+        // 🔹 Nếu đã có style, thêm width/height vào cuối style
+        if (/style\s*=/.test(match)) {
+          return match
+            .replace(src, newSrc)
+            .replace(/style="([^"]*)"/, `style="$1 width:100%; height:250px;"`);
+        }
+  
+        // 🔹 Nếu chưa có style, thêm style mới
+        return match.replace(
+          src,
+          newSrc
+        ).replace(
+          /<img/,
+          `<img style="width:100%; height:250px;"`
+        );
+      }
+    );
   };
+  
+  
 
   useEffect(() => {
     if (!id) return;
@@ -66,7 +98,13 @@ function ArticleDetail() {
       <Box>
         <div className="aspect-cinema relative h-44">
           <img
-            src={article.imageUrl ? `${urlImageArticle}${article.imageUrl}` : imageDefaut}
+            src={
+              article.imageUrl
+                ? article.imageUrl.startsWith("http")
+                  ? article.imageUrl
+                  : `${urlImageArticle}${article.imageUrl}`
+                : imageDefaut
+            }
             className="absolute w-full h-full rounded-md"
           />
           <div className="text-justify text-white bg-teal-700 bg-opacity-50 absolute top-0 w-full h-full">
@@ -89,6 +127,7 @@ function ArticleDetail() {
               dangerouslySetInnerHTML={{ __html: convertImageSrcAndStyle(article.content) }}
             />
           )}
+           <Text className="text-right italic m-2 mt-5">{article.author}</Text>
       </Box>
     </Page>
   );

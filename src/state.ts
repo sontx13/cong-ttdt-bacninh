@@ -11,7 +11,7 @@ import { calcFinalPrice } from "utils/product";
 import { wait } from "utils/async";
 import categories from "../mock/categories.json";
 import { Article, PageInfor } from "types/article";
-import { BASE_API, BASE_URL, getArticles, getBanners, getbycategory, getcategories, getCategories, getConfigs, getHotlines, getInfors } from "api";
+import { BASE_API, BASE_URL, getArticles, getBanners, getCategories, getConfigs, getHotlines, getInfors } from "api";
 import { IBanner, IConfig, IHotline, IHelpInfor } from "types";
 
 
@@ -86,11 +86,6 @@ export const hotNewsState = selector<Article[]>({
     // };
 
     try {
-      // const response = await fetch(`${BASE_URL}/${getbycategory}`, {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(dataPost),
-      // });
 
       const response = await fetch(`${BASE_API}/${getArticles}&isnew=true`);
       
@@ -134,6 +129,15 @@ export const recommendPostsState = selector<Product[]>({
   },
 });
 
+export const pageInfor = atom<PageInfor>({
+  key: "pageInfor",
+  default: {
+    pagenumber: 1,
+    pagesize: 300,
+    category_id: 1,
+  },
+});
+//tin tuc
 export const listCateState = selector({
   key: "listCate",
   get: async () => {
@@ -143,83 +147,52 @@ export const listCateState = selector({
       const jsonData = await response.json();
       return jsonData.data?.result || [];
     } catch (error) {
-      console.error("Error fetching banners:", error);
+      console.error("Error fetching categories:", error);
       return [];
     }
   },
 });
 
-export const listCategoryState = selector({
-  key: "listCategory",
-  get: async ({ get }) => {
-    try {
-      const response = await fetch(`${BASE_URL}/${getcategories}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: "",
-      });
-      const data = await response.json();
-      const listCategory = data.data;
-      return listCategory;
-    } catch (error) {
-      console.log(error);
-    }
+
+// --- selectedCategoryState không còn default = 1 nữa ---
+export const selectedCategoryState = atom<number | null>({
+  key: "selectedCategory",
+  default: null, // ban đầu chưa có ID
+});
+
+// --- selector giúp chọn danh mục hiện tại (lấy từ listCate nếu chưa có) ---
+export const activeCategoryState = selector<number>({
+  key: "activeCategory",
+  get: ({ get }) => {
+    const selected = get(selectedCategoryState);
+    const categories = get(listCateState);
+    // nếu người dùng chưa chọn, lấy ID đầu tiên trong danh sách
+    if (selected !== null) return selected;
+    return categories.length > 0 ? categories[0].id : 0;
   },
 });
 
-
-export const pageInfor = atom<PageInfor>({
-  key: "pageInfor",
-  default: {
-    pagenumber: 1,
-    pagesize: 300,
-    category_id: 1,
-  },
-});
-
+// --- selector lấy danh sách bài viết theo category ---
 export const categoryNewsState = selector<Article[]>({
   key: "categoryNews",
   get: async ({ get }) => {
-    const activeCategory = get(selectedCategoryState);
-    const page = get(pageInfor);
-    const dataPost = {
-      pagenumber: page.pagenumber,
-      pagesize: page.pagesize,
-      category_id: activeCategory,
-    };
-    //console.log(dataPost, 'dataPost state-=-=-=');
+    const activeCategory = get(activeCategoryState);
+
+    if (!activeCategory) return [];
 
     try {
-      const response = await fetch(`${BASE_URL}/${getbycategory}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataPost),
-      });
+      const response = await fetch(`${BASE_API}/${getArticles}&category.id=${activeCategory}`);
       const data = await response.json();
-      const categoryNews = data.data;
+      const categoryNews = (data?.data?.result || []) as Article[];
       return categoryNews;
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching category news:", error);
+      return [];
     }
   },
   set: ({ set }, categoryNews) => set(categoryNewsState, categoryNews),
 });
 
-export const selectedCategoryState = atom({
-  key: "selectedCategory",
-  default: 1,
-});
-// export const userState = selector({
-//   key: "user",
-//   get: async () => {
-//     const { userInfo } = await getUserInfo({ autoRequestPermission: true });
-//     return userInfo;
-//   },
-// });
 
 export const userState = atom({
   key: "userAtom",
