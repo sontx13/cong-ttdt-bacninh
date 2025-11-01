@@ -2,6 +2,7 @@ import { BASE_API, getQAS, getQASById } from "api";
 import QAS from "components/qas";
 import React, { Suspense, useEffect, useState } from "react";
 import { Page, Button, Box, useNavigate, Spinner, Input, Header } from "zmp-ui";
+import { IQAS } from "types/qas";
 
 
 
@@ -11,7 +12,7 @@ const QASPage = () => {
   const viewDetail = () => {
     navigate(`/qas-create`);
   };
-  const [qas, setQas] = useState<any>([]);
+  const [qas, setQas] = useState<IQAS[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,28 +34,26 @@ const QASPage = () => {
 
   }, []);
   const handleInput = (value) => {
-    if (value.target.value) {
-      setLoading(true)
+    const keyword = value.target.value;
+    if (keyword) {
+      setLoading(true);
       const fetchQAS = async () => {
         try {
-          const response = await fetch(`${BASE_API}/${getQAS}&contentQ=${value.target.value}`);
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
+          const response = await fetch(`${BASE_API}/${getQAS}&contentQ=${keyword}`);
+          if (!response.ok) throw new Error('Network response was not ok');
           const jsonData = await response.json();
           const data = jsonData.data;
-          console.log("data="+ data);
-          setQas(data);
-          setLoading(false)
+          setQas(data?.result || []); // ✅ Luôn là mảng
         } catch (error) {
-          setLoading(false)
           console.error('Error fetching data:', error);
+        } finally {
+          setLoading(false);
         }
       };
       fetchQAS();
     }
-
   };
+
   const line = {
     width: '100%',
     height: '1px',
@@ -80,7 +79,7 @@ const QASPage = () => {
         >
           <Spinner visible={true} />
         </div></> : <>
-          {qas.map((item) => (
+          {Array.isArray(qas) && qas.map((item) => (
             <Box key={item.id} my={4}>
               <QAS qas={item} />
               <p style={line}></p>

@@ -38,9 +38,8 @@ export const Inquiry: FC = () => {
         }}
         defaultValue={keyword}
         onChange={(e) => handleChange(e.target.value)}
-        placeholder="Tìm kiếm ..."
+        placeholder="Tìm kiếm tin tức ..."
         clearable
-        allowClear
       />
     </Box>
   );
