@@ -37,7 +37,7 @@ const QASPage = () => {
       setLoading(true)
       const fetchQAS = async () => {
         try {
-          const response = await fetch(`${BASE_API}/${getQASById}/${value.target.value}`);
+          const response = await fetch(`${BASE_API}/${getQAS}&contentQ=${value.target.value}`);
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
