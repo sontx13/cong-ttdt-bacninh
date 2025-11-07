@@ -2,7 +2,7 @@ import React from "react";
 import { FunctionComponent } from "react";
 import { Page, Text } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
-
+import dayjs from 'dayjs';
 import { Article } from "types/article";
 import { urlImageArticle,imageDefaut } from "api";
 
@@ -58,7 +58,7 @@ const NewsItem: FunctionComponent<NewsProps> = ({
         </Title>
         <div className="">
           <span className="italic text-base">
-            {`Ngày đăng: ${article.createdDate}`}
+            {`Ngày đăng: ${article.createdDate ? dayjs(article.createdDate).format('DD-MM-YYYY HH:mm:ss') : ""}`}
           </span>
         </div>
       </Page>

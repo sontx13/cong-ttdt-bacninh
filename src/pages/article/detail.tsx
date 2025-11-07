@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Article } from "types/article";
 import { BASE_API, getArticleById, urlImageArticle, imageDefaut } from "api";
 import "../../css/custom.css";
+import dayjs from 'dayjs';
 
 const { Title } = Text;
 
@@ -109,7 +110,7 @@ function ArticleDetail() {
           />
           <div className="text-justify text-white bg-teal-700 bg-opacity-50 absolute top-0 w-full h-full">
             <Title className="m-2 mt-5 text-xl">{article.titleCut}</Title>
-            <Text className="text-right italic m-2 mt-5">{article.createdDate}</Text>
+            <Text className="text-right italic m-2 mt-5">{`${article.createdDate ? dayjs(article.createdDate).format('DD-MM-YYYY HH:mm:ss') : ""}`}</Text>
           </div>
         </div>
       </Box>

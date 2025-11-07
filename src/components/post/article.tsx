@@ -4,7 +4,7 @@ import { Page, Text } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import { Article } from "types/article";
 import { urlImageArticle,imageDefaut } from "api";
-
+import dayjs from 'dayjs';
 const { Title } = Text;
 
 interface ArticleProps {
@@ -59,7 +59,7 @@ const ArticleItem: FunctionComponent<ArticleProps> = ({
         </Title>
         <div className="m-2">
           <span className="italic text-base line-clamp-2">
-            {`Ngày đăng:  ${article.createdDate}`}
+          {`Ngày đăng: ${article.createdDate ? dayjs(article.createdDate).format('DD-MM-YYYY HH:mm:ss') : ""}`}
           </span>
         </div>
         
