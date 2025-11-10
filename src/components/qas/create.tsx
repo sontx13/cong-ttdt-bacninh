@@ -1,179 +1,146 @@
 import { appId, BASE_API, postQAS } from "api";
-import React from "react";
-import { useState } from "react";
-import { Box, Button, Text, Page, Input, useSnackbar, Modal, Header } from "zmp-ui";
-
+import React, { useState } from "react";
+import { Box, Button, Page, Input, useSnackbar, Modal, Header } from "zmp-ui";
 
 const CreateQAS = () => {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [pakn, setPAKN] = useState('');
   const [content, setContent] = useState('');
-  const [file, setFile] = useState('');
   const { openSnackbar } = useSnackbar();
+
+  // ✅ Validate email
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  // ✅ Validate phone VN
+  const validatePhone = (phone: string) => {
+    const regex = /^(0|\+?84)(\d{9})$/;
+    return regex.test(phone);
+  };
+
   const submit = () => {
+    const trimmedName = name.trim();
+    const trimmedContent = content.trim();
+    const trimmedPhone = phone.trim();
+    const trimmedEmail = email.trim();
 
-
-    if (name && phone && email && content) {
-      fetch(`${BASE_API}/${postQAS}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nameQ: name,
-          phoneQ: phone,
-          emailQ: email,
-          timeQ: new Date().toISOString(),
-          contentQ: content,
-          app: {"id":`${appId}`}
-        }),
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          openSnackbar({
-            text: "Thêm mới thành công",
-            type: "success"
-          });
-          setDialogVisible(true)
-        })
-        .catch(error => {
-        });
-    } else {
-      openSnackbar({
-        text: "Vui lòng nhập đủ thông tin bắt buộc",
-        type: "error"
-      });
+    // ⚠️ Kiểm tra bắt buộc
+    if (!trimmedName) {
+      openSnackbar({ text: "Vui lòng nhập họ tên!", type: "error" });
+      return;
+    }
+    if (!trimmedPhone) {
+      openSnackbar({ text: "Vui lòng nhập số điện thoại!", type: "error" });
+      return;
+    }
+    if (!trimmedEmail) {
+      openSnackbar({ text: "Vui lòng nhập email!", type: "error" });
+      return;
+    }
+    if (!trimmedContent) {
+      openSnackbar({ text: "Vui lòng nhập nội dung câu hỏi!", type: "error" });
+      return;
     }
 
-  };
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files;
-  //   const formData = new FormData();
-  //   if (file) {
-  //     for (let i = 0; i < file.length; i++) {
-  //       formData.append('files', file[i]);
-  //     }
-  //   }
-  //   fetch(`${BASE_API}/zalo/file/upload`, {
-  //     method: 'POST',
-  //     body: formData
-  //   })
-  //     .then(response => {
-  //       const data = response.json;
-  //       return response.json();
-  //     })
-  //     .then(data => {
-  //       setFile(data.file_path)
-  //     })
-  //     .catch(error => {
-  //     });
-  // };
+    // ⚠️ Kiểm tra định dạng
+    if (!validatePhone(trimmedPhone)) {
+      openSnackbar({
+        text: "Số điện thoại không hợp lệ! (VD: 090xxxxxxx hoặc +8490xxxxxxx)",
+        type: "error",
+      });
+      return;
+    }
+    if (!validateEmail(trimmedEmail)) {
+      openSnackbar({
+        text: "Email không hợp lệ! (VD: ten@domain.com)",
+        type: "error",
+      });
+      return;
+    }
 
-  const boxTitle: React.CSSProperties = {
-    fontSize: '25px',
-    textAlign: 'center',
-    lineHeight: '1.1',
-    fontWeight: 'bold',
-  }
-  const boxTit: React.CSSProperties = {
-    borderRadius: '10px',
-  }
-  const boxContent: React.CSSProperties = {
-    borderRadius: '10px',
-    marginTop: '10px',
-    padding: '20px'
-  }
-  const handleName = (event) => {
-    setName(event.target.value);
+    // ✅ Nếu hợp lệ, gửi API
+    fetch(`${BASE_API}/${postQAS}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nameQ: trimmedName,
+        phoneQ: trimmedPhone,
+        emailQ: trimmedEmail,
+        timeQ: new Date().toISOString(),
+        contentQ: trimmedContent,
+        app: { id: `${appId}` },
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
+      })
+      .then(() => {
+        openSnackbar({ text: "Gửi câu hỏi thành công!", type: "success" });
+        setDialogVisible(true);
+        // ✅ Reset form
+        setName('');
+        setPhone('');
+        setEmail('');
+        setContent('');
+      })
+      .catch(() => {
+        openSnackbar({
+          text: "Gửi thất bại, vui lòng thử lại sau!",
+          type: "error",
+        });
+      });
   };
-  const handlePhone = (event) => {
-    setPhone(event.target.value);
-  };
-  const handleEmail = (event) => {
-    setEmail(event.target.value);
-  };
-  const handleAddress = (event) => {
-    setAddress(event.target.value);
-  };
-  const handlePAKN = (event) => {
-    setPAKN(event.target.value);
-  };
-  const handleContent = (event) => {
-    setContent(event.target.value);
 
-  };
   return (
     <Page className="min-h-0 bg-white">
-      <Header title= "Gửi câu hỏi"/>
-      <Box
-        mx={4}
-        my={4}
-      >
-        <div style={boxContent}>
+      <Header title="Gửi câu hỏi" />
+      <Box mx={4} my={4}>
+        <div style={{ borderRadius: "10px", marginTop: "10px", padding: "20px" }}>
           <Input
-            type="text"
-            label="Họ tên(*)"
+            label="Họ tên (*)"
             value={name}
-            onChange={handleName}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Nhập họ tên"
           />
           <Input
-            type="text"
-            label="Số điện thoại(*)"
+            label="Số điện thoại (*)"
             value={phone}
-            onChange={handlePhone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Nhập số điện thoại"
           />
           <Input
-            type="text"
-            label="Email"
+            label="Email (*)"
             value={email}
-            onChange={handleEmail}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Nhập email"
           />
-          {/* <Input
-            type="text"
-            label="Địa chỉ"
-            value={address}
-            onChange={handleAddress}
-          /> */}
-          {/* <Input
-            type="text"
-            label="Phản ánh kiến nghị về việc(*)"
-            value={pakn}
-            onChange={handlePAKN}
-          /> */}
           <Input.TextArea
-            label="Câu hỏi(*)"
+            label="Câu hỏi (*)"
             value={content}
-            onChange={handleContent}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Nhập nội dung câu hỏi"
           />
-          {/* <p>File đính kèm</p>
-          <input type='file' onChange={handleFileChange} /> */}
         </div>
         <br />
         <Button fullWidth onClick={submit} size="large">
           Gửi câu hỏi
         </Button>
       </Box>
-      <div className="createQAS">
-        <Modal
-          visible={dialogVisible}
-          title="Gửi thành công"
-          onClose={() => {
-            setDialogVisible(false);
-            window.history.back();
-          }}
-          description="Cảm ơn bạn đã gửi câu hỏi.Chúng tôi sẽ trả lời sớm nhất"
-        />
-      </div>
 
+      <Modal
+        visible={dialogVisible}
+        title="Gửi thành công"
+        onClose={() => {
+          setDialogVisible(false);
+          window.history.back();
+        }}
+        description="Cảm ơn bạn đã gửi câu hỏi. Chúng tôi sẽ trả lời sớm nhất!"
+      />
     </Page>
   );
 };
