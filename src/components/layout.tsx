@@ -22,6 +22,7 @@ import QASDetail from "./qas/detail";
 import PostPage from "pages/post";
 import ArticlePage from "pages/article";
 import ArticleDetail from "pages/article/detail";
+import PaknPage from "pages/pakn";
 
 
 if (import.meta.env.DEV) {
@@ -60,6 +61,7 @@ export const Layout: FC = () => {
           <Route path="/result" element={<CheckoutResultPage />}></Route>
           <Route path="/qas-create" element={<CreateQAS />}></Route>
           <Route path="/qas-detail" element={<QASDetail />}></Route>
+          <Route path="/pakn" element={<PaknPage />}></Route>
         </Routes>
       </Box>
       <Navigation />
