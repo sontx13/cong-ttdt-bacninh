@@ -7,7 +7,7 @@ const PaknPage = () => {
 
   const [showPopup, setShowPopup] = useState(false);
   const linkIos = "https://apps.apple.com/vn/app/phản-ánh-kiến-nghị/id1492609721?l=vi";
-  const linkAndroid = "";
+  const linkAndroid = "https://play.google.com/store/apps/details?id=com.pakn";
 
   const openUrlInWebview = async (url: string) => {
     try {
