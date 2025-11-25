@@ -25,7 +25,7 @@ const HelpInforPage: FC = () => {
   }
 
   const helpInfors = helpInforsLoadable.contents || [];
-
+  console.log(helpInfors)
   const openUrlInWebview = async (url: string) => {
     try {
       //console.log("🧭 Try openWebview:", url);

@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { Box, Button, Header, Icon, Page } from "zmp-ui";
 import { getSystemInfo, openWebview } from "zmp-sdk";
 import ExternalBrowserPopup from "components/pakn/externalBrowserPopup";
+import { urlImage } from "api";
+import { saveImageToGallery } from "zmp-sdk/apis";
 
 const PaknPage = () => {
 
   const [showPopup, setShowPopup] = useState(false);
   const linkIos = "https://apps.apple.com/vn/app/phản-ánh-kiến-nghị/id1492609721?l=vi";
   const linkAndroid = "https://play.google.com/store/apps/details?id=com.pakn";
+  const linkQrIos = `${urlImage}infor/1764034770133-qr-codeIos.png`;
+  const linkQrAndroid = `${urlImage}infor/1764034813699-qr-codeAndroid.png`
 
   const openUrlInWebview = async (url: string) => {
     try {
@@ -33,6 +37,13 @@ const PaknPage = () => {
     setShowPopup(true);
   }
 
+  const handleDownloadQr = async () => {
+    await saveImageToGallery ({
+      imageUrl: getSystemInfo().platform === "android" ? linkQrAndroid : linkQrIos
+    });
+    console.log("Lưu ảnh thành công!");
+  };
+
   return (
     <Page className="min-h-0 bg-white">
       <Header title="Phản ánh hiện trường" />
@@ -42,6 +53,12 @@ const PaknPage = () => {
         </Button>
         <Button suffixIcon={<Icon icon="zi-unhide" />} onClick={handleDownload} className="w-full mt-5">
           Xem danh sách phản ánh
+        </Button>
+        <img src={getSystemInfo().platform === "android" ? linkQrAndroid : linkQrIos}
+          className="w-[100%]"
+        />
+        <Button suffixIcon={<Icon icon="zi-qrline" />} onClick={handleDownloadQr} className="w-full mt-5">
+          Lưu QR
         </Button>
       </div>
       <ExternalBrowserPopup
