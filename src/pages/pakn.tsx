@@ -3,7 +3,7 @@ import { Box, Button, Header, Icon, Page } from "zmp-ui";
 import { getSystemInfo, openWebview } from "zmp-sdk";
 import ExternalBrowserPopup from "components/pakn/externalBrowserPopup";
 import { urlImage } from "api";
-import { saveImageToGallery } from "zmp-sdk/apis";
+import { saveImageToGallery, scanQRCode } from "zmp-sdk/apis";
 
 const PaknPage = () => {
 
@@ -44,6 +44,16 @@ const PaknPage = () => {
     console.log("Lưu ảnh thành công!");
   };
 
+  const handleScanQrCode = async () => {
+    const {content} = await scanQRCode({});
+    await openWebview({
+      url: content,
+      config: {
+        style: "normal",
+      },
+    })
+  }
+
   return (
     <Page className="min-h-0 bg-white">
       <Header title="Phản ánh hiện trường" />
@@ -59,6 +69,9 @@ const PaknPage = () => {
         />
         <Button suffixIcon={<Icon icon="zi-qrline" />} onClick={handleDownloadQr} className="w-full mt-5">
           Lưu QR
+        </Button>
+        <Button suffixIcon={<Icon icon="zi-qrline" />} onClick={handleScanQrCode} className="w-full mt-5">
+          Scan QR
         </Button>
       </div>
       <ExternalBrowserPopup
