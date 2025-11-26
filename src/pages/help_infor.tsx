@@ -82,7 +82,7 @@ const HelpInforPage: FC = () => {
       <Box>
         <ListRenderer
           items={inforItems}
-          limit={10}
+          limit={12}
           renderLeft={(item) => item.left}
           renderRight={(item) => item.right}
         />
