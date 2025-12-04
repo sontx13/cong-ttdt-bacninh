@@ -25,7 +25,7 @@ const HelpInforPage: FC = () => {
   }
 
   const helpInfors = helpInforsLoadable.contents || [];
-
+  console.log(helpInfors)
   const openUrlInWebview = async (url: string) => {
     try {
       //console.log("🧭 Try openWebview:", url);
@@ -82,7 +82,7 @@ const HelpInforPage: FC = () => {
       <Box>
         <ListRenderer
           items={inforItems}
-          limit={10}
+          limit={12}
           renderLeft={(item) => item.left}
           renderRight={(item) => item.right}
         />

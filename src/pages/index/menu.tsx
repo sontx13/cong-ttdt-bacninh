@@ -11,8 +11,7 @@ import { IConfig } from "types";
 
 export const Menus: FC = () => {
   const navigate = useNavigate();
-  const configs = useRecoilValue(configsState); 
-
+  const configs = useRecoilValue(configsState);
   const openUrlInWebview = async (url: string) => {
     try {
       //console.log("🧭 Try openWebview:", url);
