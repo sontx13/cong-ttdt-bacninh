@@ -5,6 +5,10 @@ import ExternalBrowserPopup from "components/pakn/externalBrowserPopup";
 import { urlImage } from "api";
 import { saveImageToGallery, scanQRCode } from "zmp-sdk/apis";
 
+const linkIconIos = `${urlImage}infor/1764822625105-apple.png`;
+const linkIconAndroid = `${urlImage}infor/1764822691099-android.png`;
+const linkIconTask = `${urlImage}infor/1764822710282-task.png`;
+
 const PaknPage = () => {
 
   const [showPopup, setShowPopup] = useState(false);
@@ -57,8 +61,26 @@ const PaknPage = () => {
   return (
     <Page className="min-h-0 bg-white">
       <Header title="Phản ánh hiện trường" />
-      <div className="w-full h-full mt-2 px-4 flex-col">
-        <Button suffixIcon={<Icon icon="zi-download" />} onClick={openBrowser} className="w-full mt-5">
+      <div className="w-full h-full mt-2 px-4 flex flex-col  bg-slate-400">
+        <div>
+          <img src={linkIconIos}
+            className="w-[30%]"
+          />
+          <span>Link tải IOS</span>
+        </div>
+        <div>
+          <img src={linkIconAndroid}
+            className="w-[30%]"
+          />
+          <span>Link tải ANDRIOD</span>
+        </div>
+        <div>
+          <img src={linkIconTask} onClick={handleDownload}
+            className="w-[30%]"
+          />
+          <span>Xem danh sách phản ánh</span>
+        </div>
+        {/* <Button suffixIcon={<Icon icon="zi-download" />} onClick={openBrowser} className="w-full mt-5">
           Gửi phản ánh
         </Button>
         <Button suffixIcon={<Icon icon="zi-unhide" />} onClick={handleDownload} className="w-full mt-5">
@@ -72,13 +94,13 @@ const PaknPage = () => {
         </Button>
         <Button suffixIcon={<Icon icon="zi-qrline" />} onClick={handleScanQrCode} className="w-full mt-5">
           Scan QR
-        </Button>
+        </Button> */}
       </div>
-      <ExternalBrowserPopup
+      {/* <ExternalBrowserPopup
         open={showPopup}
         onClose={() => setShowPopup(false)}
         link={getSystemInfo().platform === "android" ? linkAndroid : linkIos}
-      />
+      /> */}
     </Page>
   )
 }

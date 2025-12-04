@@ -1,7 +1,7 @@
 export const BASE_URL = "https://qcdc.vnptlab.com/api";
 
 export const logo_app =
-  "https://vnptbacninh.com/storage/app/logo_bacninh.png";
+  "https://vnptbacninh.com/storage/infor/1760363453216-quochuy.jpg";
 
 export const BASE_API = "https://vnptbacninh.com/api/v1";
 
