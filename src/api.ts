@@ -9,7 +9,7 @@ export const urlImage = "https://vnptbacninh.com/storage/";
 //banner
 export const getBanners = "banners?current=1&pageSize=10&sort=sort,asc&app.id=11&active=true";
 
-export const getConfigs = "configs?current=1&pageSize=10&sort=sort,asc&app.id=11&active=true";
+export const getConfigs = "configs?active=true&app.id=11&page=1&size=100&sort=sort,asc";
 
 export const getHotlines = "hotlines?current=1&pageSize=20&sort=sort,asc&app.id=11&active=true";
 
